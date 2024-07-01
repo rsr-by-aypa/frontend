@@ -6,17 +6,18 @@ import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import NavigationBar from './components/navigationBar/NavigationBar';
 import Content from './components/content/Content';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Router> 
+    <BrowserRouter basename='/'> 
       <Header />
       <NavigationBar />
       <Content />
       <Footer />
-    </Router> 
+    </BrowserRouter> 
   </React.StrictMode>
 );
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import './Header.css';
-import { BrowserRouter as useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import basketLogo from '../../images/warenkorbLogo.png'
 
 const Header = () => {
