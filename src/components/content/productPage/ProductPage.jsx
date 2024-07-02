@@ -15,11 +15,11 @@ const ProductPage = () => (
   
     <div className="products-list">
       {products.map(product => (
-        <div className="product-item" key={product.id}>
+        <div className="product-item" key={product.id} id='productItemProductPage'>
           <Link to={`/product/${product.id}`}>    {/* `/product/${product.id}` */}
-            <img src={product.imageUrl} alt={product.name} />
-            <h3>{product.name}</h3>
-            <p>{product.price}</p>
+            <img src={product.imageUrl} alt={product.name} id='productItemImageProductPage'/>
+            <h3 id='productItemNameProductPage'>{product.name}</h3>
+            <p id='productItemPriceProductPage'>{product.price}</p>
             {product.originalPrice && <p className="original-price">{product.originalPrice}</p>}
           </Link>
         </div>

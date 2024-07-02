@@ -37,9 +37,9 @@ const Product = () => {
         </div>
         <div className="product-quantity">
           Menge:
-          <input type="number" value={quantity} onChange={handleQuantityChange} min="1" />
+          <input type="number" id='changeQuantityProductButton' value={quantity} onChange={handleQuantityChange} min="1" />
         </div>
-        <button className="add-to-cart">In den Warenkorb</button>
+        <button className="add-to-cart" id='addToCartProductButton'>In den Warenkorb</button>
       </div>
     </div>
   );

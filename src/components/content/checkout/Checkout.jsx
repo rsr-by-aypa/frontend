@@ -24,22 +24,22 @@ const Checkout = ({ items, total, shippingCost }) => {
                         </div>
                     <p className="paymentContentTitle">Zahlungsmethode</p>
                     <div className="checkoutButton">
-                        <button className="payNowButton">Jetzt Bezahlen</button>
+                        <button className="payNowButton" id="payNowCheckoutButton">Jetzt Bezahlen</button>
                     </div>
             </div>
             <div className="checkout-summary">
                 <div className="checkoutSummary">
                     <div className="checkout-summary-item">
                         <span>Gesamt:</span>
-                        <span>{total}€</span>
+                        <span id='itemsGesamtsummeCheckoutText'>{total}€</span>
                     </div>
                     <div className="checkout-summary-item">
                         <span>Versandkosten:</span>
-                        <span>{shippingCost}€</span>
+                        <span id='versantkostenGesamtsummeCheckoutText'>{shippingCost}€</span>
                     </div>
                     <div className="checkout-summary-item">
                         <span>Du zahlst:</span>
-                        <span>{total + shippingCost}€</span>
+                        <span id='gesamtsummeCheckoutText'>{total + shippingCost}€</span>
                     </div>
                 </div>
             </div>

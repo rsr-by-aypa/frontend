@@ -15,17 +15,17 @@ const Basket = ({ items, total, shippingCost }) => {
           <div className="basket-summary">
             <div className="basket-summary-item">
               <span>Gesamt:</span>
-              <span>{total}€</span>
+              <span id='itemsGesamtsummeBasketText'>{total}€</span>
             </div>
             <div className="basket-summary-item">
               <span>Versandkosten:</span>
-              <span>{shippingCost}€</span>
+              <span id='versandkostenGesamtsummeBasketText'>{shippingCost}€</span>
             </div>
             <div className="basket-summary-item">
               <span>Du zahlst:</span>
-              <span>{total + shippingCost}€</span>
+              <span id='GesamtsummeBasketText'>{total + shippingCost}€</span>
             </div>
-            <button className="checkout-button">Zur Kasse</button>
+            <button className="checkout-button" id='checkoutBasketButton'>Zur Kasse</button>
           </div>
         </div>
       </div>
