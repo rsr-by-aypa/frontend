@@ -11,7 +11,7 @@ const Product = () => {
   return (
     <div className="product-container">
       <div className="product-image">
-        <img src="https://via.placeholder.com/150" alt="Product" />
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7q8-CyRMOWXEdfAJcERFsk-40-N6P9m73hQ&s" alt="Product" />
       </div>
       <div className="product-details">
         <h1>Amethyst 1</h1>

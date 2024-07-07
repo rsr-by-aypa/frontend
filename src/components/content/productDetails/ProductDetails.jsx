@@ -7,10 +7,11 @@ const ProductDetails = () => {
     return (
         <div>
             <Product />
-            <hr />
+            {/* <hr />
             <Questions/>
             <hr />
             <Feedback/>
+            */}
         </div>
     ); 
 };

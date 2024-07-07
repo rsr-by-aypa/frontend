@@ -12,7 +12,7 @@ const Footer = () => {
         <nav className="footer__nav">
           <ul className="footer__nav-list">
             <li className="footer__nav-item">
-              <Link to="/home" className="footer__nav-link" id='allRightsReservedFooterLink'>
+              <Link to="/all-rights-reserved" className="footer__nav-link" id='allRightsReservedFooterLink'>
                 All Rights Reserved 
               </Link>
             </li>

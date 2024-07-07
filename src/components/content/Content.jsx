@@ -6,6 +6,7 @@ import ProductPage from "./productPage/ProductPage";
 import ProductDetails from "./productDetails/ProductDetails";
 import Basket from "./basket/Basket";
 import Checkout from "./checkout/Checkout";
+import AllRightsReservedPage from './../allRightsReservedPage/AllRightsReservedPage';
 
 const Content = () => {
 
@@ -14,9 +15,10 @@ const Content = () => {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/productpage" element={<ProductPage />} />
-                <Route path="/productdetails/:id" element={<ProductDetails />} />
+                <Route path="/productdetails" element={<ProductDetails />} />
                 <Route path="/basket" element={<Basket />} />
                 <Route path="/checkout" element={<Checkout />} />
+                <Route path="/all-rights-reserved" element={<AllRightsReservedPage/>} />
             </Routes>
     );
 };
