@@ -2,23 +2,30 @@ import React from "react";
 import { Routes, Route} from 'react-router-dom';
 import './Content.css';
 import Home from "./home/Home";
-import ProductPage from "./productPage/ProductPage";
+import ProductList from "./productList/ProductList";
 import ProductDetails from "./productDetails/ProductDetails";
 import Basket from "./basket/Basket";
 import Checkout from "./checkout/Checkout";
-import AllRightsReservedPage from './../allRightsReservedPage/AllRightsReservedPage';
+
+import AddProduct from "./addProduct/AddProduct";
+import AllRightsReserved from "../footer/footerAllRightsReserved/AllRightsReserved";
+import PrivacyPolicy from "../footer/footerPrivacyPolicy/PrivacyPolicy";
+import TermsAndConditions from "../footer/footerTermsAndConditions/TermsAndConditions";
 
 const Content = () => {
 
-    /*  <Route path="/prodcutdetails/:id" element={<ProductDetails/>}/>  */
     return (
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/productpage" element={<ProductPage />} />
-                <Route path="/productdetails" element={<ProductDetails />} />
+                <Route path="/productList" element={<ProductList />} />
+                <Route path="/productdetails/:id" element={<ProductDetails />} />
                 <Route path="/basket" element={<Basket />} />
                 <Route path="/checkout" element={<Checkout />} />
-                <Route path="/all-rights-reserved" element={<AllRightsReservedPage/>} />
+
+                <Route path="/addProduct" element={<AddProduct/>} />
+                <Route path="/allRightsReserved" element={<AllRightsReserved/>} />
+                <Route path="/privacyPolicy" element={<PrivacyPolicy/>} />
+                <Route path="/termsAndConditions" element={<TermsAndConditions/>} />
             </Routes>
     );
 };
