@@ -22,8 +22,12 @@ FROM nginx:alpine
 # Copy build output from previous stage
 COPY --from=build /app/build /usr/share/nginx/html
 
+# Copy custom nginx configuration
+COPY nginx.conf /etc/nginx/nginx.conf
+
 # Expose port 80 to the Docker host
 EXPOSE 80
 
 # Start Nginx server
 CMD ["nginx", "-g", "daemon off;"]
+
