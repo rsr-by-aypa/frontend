@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './ProductList.css';
 
-const products = [
+/*const products = [
   { id: 1, name: 'Amethyst 1 dadadwdadawdwdawdwadadawdawdawdwadadadawdawdwadawdwdwqeqeqeqweqweqwewq', price: '36,00 EUR', imageUrl: 'https://media.4-paws.org/a/5/c/4/a5c4c9cdfd3a8ecb58e9b1a5bd496c9dfbc3cedc/VIER%20PFOTEN_2020-10-07_00132-2890x2000-1920x1329.jpg' },
   { id: 2, name: 'Amethyst 2', price: '36,00 EUR', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7q8-CyRMOWXEdfAJcERFsk-40-N6P9m73hQ&s' },
   { id: 3, name: 'Amethyst 3', price: '36,00 EUR', imageUrl: 'https://scr.wfcdn.de/12970/Katzen-Meme-1434712235-0-0.jpg' },
@@ -19,19 +19,19 @@ const products = [
   { id: 14, name: 'Amethyst 6', price: '36,00 EUR', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7q8-CyRMOWXEdfAJcERFsk-40-N6P9m73hQ&s' },
   { id: 15, name: 'Amethyst 7', price: '36,00 EUR', imageUrl: 'https://scr.wfcdn.de/12970/Katzen-Meme-1434712235-0-0.jpg' },
   { id: 16, name: 'Amethyst 8', price: '36,00 EUR', imageUrl: 'https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs/191384615/original/2c4ca5180797e138f11349406590e3d88aa18d66/send-you-random-cat-memes.jpg' },
-];
+];*/
 
 
 const ProductList = () => {
 
-  /*const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch('/api/products') 
+    fetch('/api/product/all') 
       .then(response => response.json())
       .then(data => setProducts(data))
       .catch(error => console.error('Error fetching products:', error));
-  }, []);*/
+  }, []);
 
 return (
   <div className="products-list">
