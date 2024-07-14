@@ -21,22 +21,34 @@ const products = [
   { id: 16, name: 'Amethyst 8', price: '36,00 EUR', imageUrl: 'https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs/191384615/original/2c4ca5180797e138f11349406590e3d88aa18d66/send-you-random-cat-memes.jpg' },
 ];
 
-const ProductList = () => (
+
+const ProductList = () => {
+
+  /*const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetch('/api/products') 
+      .then(response => response.json())
+      .then(data => setProducts(data))
+      .catch(error => console.error('Error fetching products:', error));
+  }, []);*/
+
+return (
   <div className="products-list">
     {products.map(product => (
       <div className="product-item" key={product.id}>
-        <Link to={`/productdetails/${product.id}`} className="product-link"> {/* Hier wird die Änderung vorgenommen */}
+        <Link to={`/productdetails/${product.id}`} className="product-link"> 
           <div className="image-container">
             <img src={product.imageUrl} alt={product.name} className="product-image" />
           </div>
           <h3 className="product-name">{product.name}</h3>
           <p className="product-price">{product.price}</p>
         </Link>
-        
       </div>
     ))}
   </div>
-);
+  );
+}
 
 export default ProductList;
 

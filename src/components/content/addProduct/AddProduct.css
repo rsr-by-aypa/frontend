@@ -36,9 +36,9 @@
 }
 
 .form-group textarea {
-    resize: vertical; /* Only allow vertical resizing */
-    max-width: 100%;  /* Ensures the textarea doesn't grow beyond the form's width */
-    min-width: 100%;  /* Ensures the textarea doesn't shrink below the form's width */
+    resize: vertical; 
+    max-width: 100%;  
+    min-width: 100%;  
     min-height: 50px;
 }
 
