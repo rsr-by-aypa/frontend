@@ -1,21 +1,20 @@
 html, body, #root, .navContainer {
   height: 75px;
-  margin-top: 10;
 }
 
 .navContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #464646 ; /* Hellgrauer Hintergrund */
-  
+  background-color: #30664d ; /* Hellgrauer Hintergrund */
 }
+
 
 .navigationButtons {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  height: 75%;
+  height: 100%;
   width: 800px;   /*600 pixel bei 4 sachen "Unser Sortiment | Kategorie 1 | Kategorie 2 | Kategorie 3 " */
   padding-left: 20px;
 }
@@ -23,8 +22,8 @@ html, body, #root, .navContainer {
 .navButtons {
   margin: 0;
   border: none;
-  border-radius: 10px;
-  background-color: #464646 ;
+  border-radius: 0px; 
+  background-color: #30664d ;
   color: #f0f0f0;
   cursor: pointer;
   width: 100%;
@@ -33,7 +32,7 @@ html, body, #root, .navContainer {
 }
 
 .navButtons:hover {
-  background-color: #61a1ea;
+  background-color: #458f6d;
   color: #1d1d1d;
 }
 

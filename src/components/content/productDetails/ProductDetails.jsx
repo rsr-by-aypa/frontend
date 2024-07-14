@@ -58,11 +58,11 @@ const ProductDetails = () => {
         </div>
         <div className="product-details-quantity">
           Menge:
-          <input type="number" value={quantity} onChange={handleQuantityChange} min="1" />
+          <input type="number" id="product-details-quantity" value={quantity} onChange={handleQuantityChange} min="1" />
         </div>
         <div className="product-details-actions">
           <Link to="/productList" className="product-details-back-button">Zurück zur Liste</Link>
-          <button className="product-details-add-to-cart" onClick={addToCart}>In den Warenkorb</button>
+          <button className="product-details-add-to-cart" id="product-details-add-to-cart" onClick={addToCart}>In den Warenkorb</button>
         </div>
       </div>
     </div>
