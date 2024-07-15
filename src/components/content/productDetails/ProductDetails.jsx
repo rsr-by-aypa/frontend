@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import './ProductDetails.css';
+import keycloak from '../keycloak';
 
 const products = [
   { id: 1, name: 'Amethyst 1', price: '36,00 EUR', imageUrl: 'https://media.4-paws.org/a/5/c/4/a5c4c9cdfd3a8ecb58e9b1a5bd496c9dfbc3cedc/VIER%20PFOTEN_2020-10-07_00132-2890x2000-1920x1329.jpg', description: 'Kurze Beschreibung hier' },
@@ -19,10 +20,42 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
-    // Simuliere einen API-Aufruf, um das Produkt basierend auf der ID zu finden
-    const selectedProduct = products.find(p => p.id === parseInt(id));
-    setProduct(selectedProduct);
-  }, [id]);
+      fetchProduct();
+    }, []);
+
+  const fetchProduct = async () => {
+      try {
+        try {
+            await keycloak.init({ onLoad: 'login-required' });
+          } catch (error) {
+            console.log("Keycloak Instance has already been initialized");
+          }
+
+        const token = keycloak.token;
+
+        const response = await fetch(`/api/product/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!response.ok) {
+          if (response.status === 401) {
+            keycloak.login(
+              {
+                redirectUri: `/productdetails/${id}`,
+              }
+            );
+            return;
+          }
+          throw new Error('Network response was not ok');
+        }
+
+        const product = await response.json();
+        setProduct(product);
+      } catch (error) {
+        console.error('Error fetching product details:', error);
+      }
+    };
 
   const handleQuantityChange = (e) => {
     setQuantity(e.target.value);
@@ -41,7 +74,7 @@ const ProductDetails = () => {
     <div className="product-details-container">
       <div className="product-details-content">
         <div className="product-details-image">
-          <img src={product.imageUrl} alt={product.name} className='productDetailsImage' />
+          <img src={product.imageLink} alt={product.name} className='productDetailsImage' />
         </div>
         <h1 className="product-details-name">{product.name}</h1>
         <div className="product-details-rating">

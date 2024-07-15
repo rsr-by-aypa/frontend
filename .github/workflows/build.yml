@@ -28,7 +28,7 @@ jobs:
         run: echo $CR_PAT | docker login ghcr.io -u grischastorch23 --password-stdin
         
       - name: docker build
-        run: docker build -t ghcr.io/grischastorch23/react-test .
+        run: docker build -t ghcr.io/rsr-by-aypa/frontend .
 
       - name: docker push
-        run: docker push ghcr.io/grischastorch23/react-test:latest
+        run: docker push ghcr.io/rsr-by-aypa/frontend:latest

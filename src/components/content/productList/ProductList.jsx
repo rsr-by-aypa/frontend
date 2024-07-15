@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './ProductList.css';
+import keycloak from '../keycloak';
 
 /*const products = [
   { id: 1, name: 'Amethyst 1 dadadwdadawdwdawdwadadawdawdawdwadadadawdawdwadawdwdwqeqeqeqweqweqwewq', price: '36,00 EUR', imageUrl: 'https://media.4-paws.org/a/5/c/4/a5c4c9cdfd3a8ecb58e9b1a5bd496c9dfbc3cedc/VIER%20PFOTEN_2020-10-07_00132-2890x2000-1920x1329.jpg' },
@@ -23,33 +24,65 @@ import './ProductList.css';
 
 
 const ProductList = () => {
-
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch('/api/product/all') 
-      .then(response => response.json())
-      .then(data => setProducts(data))
-      .catch(error => console.error('Error fetching products:', error));
+    fetchData();
   }, []);
 
-return (
-  <div className="products-list">
-    {products.map(product => (
-      <div className="product-item" key={product.id}>
-        <Link to={`/productdetails/${product.id}`} className="product-link"> 
-          <div className="image-container">
-            <img src={product.imageUrl} alt={product.name} className="product-image" />
-          </div>
-          <h3 className="product-name">{product.name}</h3>
-          <p className="product-price">{product.price}</p>
-        </Link>
-      </div>
-    ))}
-  </div>
+  const fetchData = async () => {
+    try {
+      // Initialisiere Keycloak
+      try {
+        await keycloak.init({ onLoad: 'login-required' });
+      } catch (error) {
+        console.log("Keycloak Instance has already been initialized");
+      }
+      const token = keycloak.token;
+
+      // Führe die Datenabfrage durch
+      const response = await fetch('/api/product/all', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!response.ok) {
+        // Wenn die Antwort nicht OK ist, prüfe den Statuscode
+        if (response.status === 401) {
+          // Benutzer zur Keycloak-Login-Seite weiterleiten
+          keycloak.login(
+            {
+              redirectUri: "/productList", // Hier die gewünschte redirect_uri angeben
+            }
+          );
+          return;
+        }
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      setProducts(data);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  };
+
+  return (
+    <div className="products-list">
+      {products.map(product => (
+        <div className="product-item" key={product.id}>
+          <Link to={`/productdetails/${product.id}`} className="product-link">
+            <div className="image-container">
+              <img src={product.imageLink} alt={product.name} className="product-image" />
+            </div>
+            <h3 className="product-name">{product.name}</h3>
+            <p className="product-price">{product.priceInEuro}</p>
+          </Link>
+        </div>
+      ))}
+    </div>
   );
 }
 
 export default ProductList;
-
 
