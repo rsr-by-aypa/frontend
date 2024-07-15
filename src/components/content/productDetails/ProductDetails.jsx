@@ -20,42 +20,44 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
-      fetchData();
+      fetchProduct();
+
+      const fetchProduct = async () => {
+            try {
+              try {
+                  await keycloak.init({ onLoad: 'login-required' });
+                } catch (error) {
+                  console.log("Keycloak Instance has already been initialized");
+                }
+
+              const token = keycloak.token;
+
+              const response = await fetch(`/api/product/${id}`, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              });
+              if (!response.ok) {
+                if (response.status === 401) {
+                  keycloak.login(
+                    {
+                      redirectUri: `/productdetails/${id}`,
+                    }
+                  );
+                  return;
+                }
+                throw new Error('Network response was not ok');
+              }
+
+              const product = await response.json();
+              setProduct(product);
+            } catch (error) {
+              console.error('Error fetching product details:', error);
+            }
+          };
     }, []);
 
-  const fetchData = async () => {
-      try {
-        try {
-            await keycloak.init({ onLoad: 'login-required' });
-          } catch (error) {
-            console.log("Keycloak Instance has already been initialized");
-          }
 
-        const token = keycloak.token;
-
-        const response = await fetch(`/api/product/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (!response.ok) {
-          if (response.status === 401) {
-            keycloak.login(
-              {
-                redirectUri: `/productdetails/${id}`,
-              }
-            );
-            return;
-          }
-          throw new Error('Network response was not ok');
-        }
-
-        const product = await response.json();
-        setProduct(product);
-      } catch (error) {
-        console.error('Error fetching product details:', error);
-      }
-    };
 
   const handleQuantityChange = (e) => {
     setQuantity(e.target.value);
