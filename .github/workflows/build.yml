@@ -30,5 +30,11 @@ jobs:
       - name: docker build
         run: docker build -t ghcr.io/rsr-by-aypa/frontend .
 
-      - name: docker push
-        run: docker push ghcr.io/rsr-by-aypa/frontend:latest
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: ghcr.io/rsr-by-aypa/frontend:latest
