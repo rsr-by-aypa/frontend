@@ -20,7 +20,7 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
-      fetchProduct();
+
 
       const fetchProduct = async () => {
             try {
@@ -55,6 +55,7 @@ const ProductDetails = () => {
               console.error('Error fetching product details:', error);
             }
           };
+      fetchProduct();
     }, [id]);
 
 
