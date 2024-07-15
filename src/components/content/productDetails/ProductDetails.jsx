@@ -55,7 +55,7 @@ const ProductDetails = () => {
               console.error('Error fetching product details:', error);
             }
           };
-    }, []);
+    }, [id]);
 
 
 
