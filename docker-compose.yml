@@ -1,16 +1,19 @@
 version: "3.8"
 
 services:
-  react:
+  frontend:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - "80:80"
     networks:
-      - frontend-network 
+      - frontend-network
+      - frontend-auth-network
     depends_on:
-      - api-gateway    
+      - api-gateway
+    container_name:
+      frontend
 
   rabbitmq:
     ports:
@@ -109,6 +112,7 @@ services:
     networks:
       - api-network
       - keycloak-network
+      - frontend-auth-network
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8080/auth/" ]
       interval: 30s
@@ -125,7 +129,9 @@ networks:
   keycloak-network:
     driver: bridge
   frontend-network:
-    driver: bridge  
+    driver: bridge
+  frontend-auth-network:
+    driver: bridge
 
 volumes:
   postgres_product_data:

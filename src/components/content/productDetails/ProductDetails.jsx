@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import './ProductDetails.css';
+import keycloak from '../keycloak';
 
-const products = [
+/* const products = [
   { id: 1, name: 'Amethyst 1', price: '36,00 EUR', imageUrl: 'https://media.4-paws.org/a/5/c/4/a5c4c9cdfd3a8ecb58e9b1a5bd496c9dfbc3cedc/VIER%20PFOTEN_2020-10-07_00132-2890x2000-1920x1329.jpg', description: 'Kurze Beschreibung hier' },
   { id: 2, name: 'Amethyst 2', price: '36,00 EUR', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7q8-CyRMOWXEdfAJcERFsk-40-N6P9m73hQ&s', description: 'Kurze Beschreibung hier' },
   { id: 3, name: 'Amethyst 3', price: '36,00 EUR', imageUrl: 'https://scr.wfcdn.de/12970/Katzen-Meme-1434712235-0-0.jpg', description: 'Kurze Beschreibung hier' },
@@ -11,7 +12,7 @@ const products = [
   { id: 6, name: 'Amethyst 6', price: '36,00 EUR', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7q8-CyRMOWXEdfAJcERFsk-40-N6P9m73hQ&s', description: 'Kurze Beschreibung hier' },
   { id: 7, name: 'Amethyst 7', price: '36,00 EUR', imageUrl: 'https://scr.wfcdn.de/12970/Katzen-Meme-1434712235-0-0.jpg', description: 'Kurze Beschreibung hier' },
   { id: 8, name: 'Amethyst 8', price: '36,00 EUR', imageUrl: 'https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs/191384615/original/2c4ca5180797e138f11349406590e3d88aa18d66/send-you-random-cat-memes.jpg', description: 'Kurze Beschreibung hier' },
-];
+]; */
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -19,10 +20,45 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
-    // Simuliere einen API-Aufruf, um das Produkt basierend auf der ID zu finden
-    const selectedProduct = products.find(p => p.id === parseInt(id));
-    setProduct(selectedProduct);
-  }, [id]);
+
+
+      const fetchProduct = async () => {
+            try {
+              try {
+                  await keycloak.init({ onLoad: 'login-required' });
+                } catch (error) {
+                  console.log("Keycloak Instance has already been initialized");
+                }
+
+              const token = keycloak.token;
+
+              const response = await fetch(`/api/product/${id}`, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              });
+              if (!response.ok) {
+                if (response.status === 401) {
+                  keycloak.login(
+                    {
+                      redirectUri: `/productdetails/${id}`,
+                    }
+                  );
+                  return;
+                }
+                throw new Error('Network response was not ok');
+              }
+
+              const product = await response.json();
+              setProduct(product);
+            } catch (error) {
+              console.error('Error fetching product details:', error);
+            }
+          };
+      fetchProduct();
+    }, [id]);
+
+
 
   const handleQuantityChange = (e) => {
     setQuantity(e.target.value);
@@ -41,7 +77,7 @@ const ProductDetails = () => {
     <div className="product-details-container">
       <div className="product-details-content">
         <div className="product-details-image">
-          <img src={product.imageUrl} alt={product.name} className='productDetailsImage' />
+          <img src={product.imageLink} alt={product.name} className='productDetailsImage' />
         </div>
         <h1 className="product-details-name">{product.name}</h1>
         <div className="product-details-rating">
