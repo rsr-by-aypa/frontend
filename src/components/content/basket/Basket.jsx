@@ -1,5 +1,6 @@
 import React from 'react';
 import './Basket.css';
+import { useNavigate } from 'react-router-dom';
 
 const Basket = ({ items, total, shippingCost }) => {
 
