@@ -46,6 +46,8 @@ const Basket = (shippingCost) => {
         }
       };
     const { id, items, userId } = shoppingCart;
+    console.log(id);
+    console.log(userId);
     const total = items.reduce((acc, item) => acc + item.priceInEuro * item.amount, 0);
 
     const navigate = useNavigate();
