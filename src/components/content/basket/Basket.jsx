@@ -2,6 +2,9 @@ import React from 'react';
 import './Basket.css';
 
 const Basket = ({ items, total, shippingCost }) => {
+
+    const navigate = useNavigate();
+
     return (
       <div className="basket-container">
         <h2 className='warenkorbTitle'>Warenkorb</h2>
@@ -25,7 +28,7 @@ const Basket = ({ items, total, shippingCost }) => {
               <span>Du zahlst:</span>
               <span id='GesamtsummeBasketText'>{total + shippingCost}€</span>
             </div>
-            <button className="checkout-button" id='checkoutBasketButton'>Zur Kasse</button>
+            <button className="checkout-button" id='checkoutBasketButton' onClick={() => navigate('/productList')}>Zur Kasse</button>
           </div>
         </div>
       </div>
