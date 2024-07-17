@@ -45,12 +45,14 @@ const Basket = (shippingCost) => {
           console.error('Error fetching items:', error);
         }
       };
-    const { id, items, userId } = shoppingCart;
-    console.log(id);
-    console.log(userId);
-    const total = items.reduce((acc, item) => acc + item.priceInEuro * item.amount, 0);
 
     const navigate = useNavigate();
+
+    if (!shoppingCart.items) {
+        return <p>Lade...</p>; // Hier kannst du einen Lade-Indikator anzeigen
+    }
+
+    const total = shoppingCart.items.reduce((acc, item) => acc + item.priceInEuro * item.amount, 0);
 
     return (
       <div className="basket-container">
@@ -59,7 +61,7 @@ const Basket = (shippingCost) => {
           <div className="items-list">
             <h3>Artikel im Warenkorb:</h3>
             <ul>
-              {items.map(item => (
+              {shoppingCart.items.map(item => (
                             <li key={item.id}>
                               <div className="item-details">
                                 <img src={item.imageLink} alt={item.productName} />
