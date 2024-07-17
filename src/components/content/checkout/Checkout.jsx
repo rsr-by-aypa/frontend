@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import "./Checkout.css";
 import { useLocation } from 'react-router-dom';
+import keycloak from '../keycloak';
+import Toastify from 'toastify-js';
+import "toastify-js/src/toastify.css";
 
 const Checkout = () => {
 
     const location = useLocation();
     const { shoppingCart, total, shippingCost } = location.state || { shoppingCart: null, total: 0, shippingCost: 0 };
-    console.log(`Went to Checkout with ${shoppingCart}`)
+    console.log(`Went to Checkout with ${shoppingCart}`);
 
     const [email, setEmail] = useState("");
     const [vorname, setVorname] = useState("");
@@ -15,6 +18,7 @@ const Checkout = () => {
     const [stadt, setStadt] = useState("");
     const [postleitzahl, setPostleitzahl] = useState("");
     const [adresse, setAdresse] = useState("");
+    const [paymentMethod, setPaymentMethod] = useState("paypal"); // Default-Zahlungsmethode
 
     const handleEmailChange = (event) => {
         setEmail(event.target.value);
@@ -44,11 +48,81 @@ const Checkout = () => {
         setAdresse(event.target.value);
     };
 
+    const handlePaymentMethodChange = (event) => {
+        setPaymentMethod(event.target.value);
+    };
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        // Hier kannst du die Logik hinzufügen, die nach dem Klick auf "Jetzt Bezahlen" ausgeführt werden soll
-        console.log("Form submitted with data:", { email, vorname, nachname, country, stadt, postleitzahl, adresse });
-        // Hier kannst du weitere Aktionen ausführen, z.B. eine Weiterleitung oder API-Aufrufe
+        const orderRequest = {
+            userId: shoppingCart.userId,
+            firstName: vorname,
+            lastName: nachname,
+            email: email,
+            address: `${adresse}, ${postleitzahl} ${stadt}, ${country}`,
+            paymentInfo: paymentMethod,
+            boughtItems: shoppingCart.items.map(item => ({
+                productId: item.productId,
+                quantity: item.amount
+            }))
+        };
+
+        createOrder(orderRequest); // Übergebe orderRequest an createOrder()
+
+        console.log("Form submitted with data:", { email, vorname, nachname, country, stadt, postleitzahl, adresse, paymentMethod });
+    };
+
+    const createOrder = async (orderRequest) => { // orderRequest als Parameter hinzufügen
+        try {
+            await keycloak.init({ onLoad: 'login-required' });
+        } catch (error) {
+            console.log("Keycloak Instance has already been initialized");
+        }
+
+        const token = keycloak.token;
+
+        try {
+            const response = await fetch("/api/orders", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify(orderRequest)
+            });
+
+            if (!response.ok) {
+                if (response.status === 401) {
+                    keycloak.login(
+                        {
+                            redirectUri: `/checkout`,
+                        }
+                    );
+                    return;
+                }
+                throw new Error('Network response was not ok' + response.statusText);
+            }
+            Toastify({
+                text: "Bestellung wurde in Auftrag gegeben!",
+                duration: 2000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "#70A86C",
+            }).showToast();
+            console.log(`Order wurde created`);
+            return;
+        } catch (error) {
+            Toastify({
+                text: "Bestellung konnte nicht beauftragt werden!",
+                duration: 2000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "#70A86C",
+            }).showToast();
+            console.error('Error:', error);
+        }
     };
 
     return (
@@ -65,6 +139,10 @@ const Checkout = () => {
                     <input type="text" id="postleitzahl" name="postleitzahl" placeholder="Postleitzahl" value={postleitzahl} onChange={handlePostleitzahlChange} required />
                     <input type="text" id="adresse" name="adresse" placeholder="Adresse" value={adresse} onChange={handleAdresseChange} required />
                     <p className="paymentContentTitle">Zahlungsmethode</p>
+                    <select id="paymentMethod" name="paymentMethod" value={paymentMethod} onChange={handlePaymentMethodChange}>
+                        <option value="paypal">PayPal</option>
+                        {/* Weitere Zahlungsmethoden hier hinzufügen */}
+                    </select>
                     <div className="checkoutButton">
                         <button type="submit" className="payNowButton" id="payNowCheckoutButton">Jetzt Bezahlen</button>
                     </div>
