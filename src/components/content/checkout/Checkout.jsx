@@ -6,7 +6,7 @@ const Checkout = () => {
 
     const location = useLocation();
     const { shoppingCart, total, shippingCost } = location.state || { shoppingCart: null, total: 0, shippingCost: 0 };
-
+    console.log(`Went to Checkout with ${shoppingCart}`)
 
     const [email, setEmail] = useState("");
     const [vorname, setVorname] = useState("");
