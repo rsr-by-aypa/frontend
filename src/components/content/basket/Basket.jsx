@@ -3,8 +3,8 @@ import './Basket.css';
 import { useNavigate } from 'react-router-dom';
 import keycloak from '../keycloak';
 
-const Basket = ({ shippingCost }) => {
-
+const Basket = () => {
+    const shippingCost = 0.00;
     const [shoppingCart, setShoppingCart] = useState(null);
 
     useEffect(() => {
@@ -83,15 +83,15 @@ const Basket = ({ shippingCost }) => {
           <div className="basket-summary">
             <div className="basket-summary-item">
               <span>Gesamt:</span>
-              <span id='itemsGesamtsummeBasketText'>{total}€</span>
+              <span id='itemsGesamtsummeBasketText'>{Number(total).toFixed(2)}€</span>
             </div>
             <div className="basket-summary-item">
               <span>Versandkosten:</span>
-              <span id='versandkostenGesamtsummeBasketText'>{shippingCost}€</span>
+              <span id='versandkostenGesamtsummeBasketText'>{Number(shippingCost).toFixed(2)}€</span>
             </div>
             <div className="basket-summary-item">
               <span>Du zahlst:</span>
-              <span id='GesamtsummeBasketText'>{total + shippingCost}€</span>
+              <span id='GesamtsummeBasketText'>{(Number(total) + Number(shippingCost)).toFixed(2)}€</span>
             </div>
             <button className="checkout-button" id='checkoutBasketButton' onClick={() => navigate('/productList')}>Zur Kasse</button>
           </div>
