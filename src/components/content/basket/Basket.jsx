@@ -40,12 +40,13 @@ const Basket = (shippingCost) => {
 
           const data = await response.json();
           setShoppingCart(data);
-          const { id, items, userId } = shoppingCart;
-          const total = items.reduce((acc, item) => acc + item.priceInEuro * item.amount, 0);
+
         } catch (error) {
           console.error('Error fetching items:', error);
         }
       };
+    const { id, items, userId } = shoppingCart;
+    const total = items.reduce((acc, item) => acc + item.priceInEuro * item.amount, 0);
 
     const navigate = useNavigate();
 
