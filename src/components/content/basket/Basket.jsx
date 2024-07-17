@@ -3,7 +3,7 @@ import './Basket.css';
 import { useNavigate } from 'react-router-dom';
 import keycloak from '../keycloak';
 
-const Basket = (total, shippingCost) => {
+const Basket = (shippingCost) => {
 
     const [shoppingCart, setShoppingCart] = useState([]);
 
@@ -40,6 +40,8 @@ const Basket = (total, shippingCost) => {
 
           const data = await response.json();
           setShoppingCart(data);
+          const { id, items, userId } = shoppingCart;
+          const total = items.reduce((acc, item) => acc + item.priceInEuro * item.amount, 0);
         } catch (error) {
           console.error('Error fetching items:', error);
         }
@@ -54,13 +56,24 @@ const Basket = (total, shippingCost) => {
           <div className="items-list">
             <h3>Artikel im Warenkorb:</h3>
             <ul>
-              <p>{shoppingCart}</p>
+              {items.map(item => (
+                            <li key={item.id}>
+                              <div className="item-details">
+                                <img src={item.imageLink} alt={item.productName} />
+                                <div>
+                                  <h4>{item.productName}</h4>
+                                  <p>Preis: {item.priceInEuro}€</p>
+                                  <p>Anzahl: {item.amount}</p>
+                                </div>
+                              </div>
+                            </li>
+                          ))}
             </ul>
           </div>
           <div className="basket-summary">
             <div className="basket-summary-item">
               <span>Gesamt:</span>
-              <span id='itemsGesamtsummeBasketText'>{total}€</span>
+              <span id='itemsGesamtsummeBasketText'>{total.toFixed(2)}€</span>
             </div>
             <div className="basket-summary-item">
               <span>Versandkosten:</span>
@@ -68,7 +81,7 @@ const Basket = (total, shippingCost) => {
             </div>
             <div className="basket-summary-item">
               <span>Du zahlst:</span>
-              <span id='GesamtsummeBasketText'>{total + shippingCost}€</span>
+              <span id='GesamtsummeBasketText'>{(total + shippingCost).toFixed(2)}€</span>
             </div>
             <button className="checkout-button" id='checkoutBasketButton' onClick={() => navigate('/productList')}>Zur Kasse</button>
           </div>
