@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import "./Checkout.css";
+import { useLocation } from 'react-router-dom';
 
-const Checkout = ({ items, total, shippingCost }) => {
+const Checkout = () => {
+
+    const location = useLocation();
+    const { shoppingCart, total, shippingCost } = location.state || { shoppingCart: null, total: 0, shippingCost: 0 };
+
+
     const [email, setEmail] = useState("");
     const [vorname, setVorname] = useState("");
     const [nachname, setNachname] = useState("");
@@ -67,15 +73,15 @@ const Checkout = ({ items, total, shippingCost }) => {
                     <div className="checkoutSummary">
                         <div className="checkout-summary-item">
                             <span>Gesamt:</span>
-                            <span id='itemsGesamtsummeCheckoutText'>{total}€</span>
+                            <span id='itemsGesamtsummeCheckoutText'>{Number(total).toFixed(2)}€</span>
                         </div>
                         <div className="checkout-summary-item">
                             <span>Versandkosten:</span>
-                            <span id='versantkostenGesamtsummeCheckoutText'>{shippingCost}€</span>
+                            <span id='versantkostenGesamtsummeCheckoutText'>{Number(shippingCost).toFixed(2)}€</span>
                         </div>
                         <div className="checkout-summary-item">
                             <span>Du zahlst:</span>
-                            <span id='gesamtsummeCheckoutText'>{total + shippingCost}€</span>
+                            <span id='gesamtsummeCheckoutText'>{(Number(total) + Number(shippingCost)).toFixed(2)}€</span>
                         </div>
                     </div>
                 </div>
