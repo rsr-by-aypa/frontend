@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import './ProductDetails.css';
 import keycloak from '../keycloak';
+import Toastify from 'toastify-js';
+import "toastify-js/src/toastify.css";
 
 /* const products = [
   { id: 1, name: 'Amethyst 1', price: '36,00 EUR', imageUrl: 'https://media.4-paws.org/a/5/c/4/a5c4c9cdfd3a8ecb58e9b1a5bd496c9dfbc3cedc/VIER%20PFOTEN_2020-10-07_00132-2890x2000-1920x1329.jpg', description: 'Kurze Beschreibung hier' },
@@ -64,9 +66,65 @@ const ProductDetails = () => {
     setQuantity(e.target.value);
   };
 
-  const addToCart = () => {
-    // Hier kannst du die Logik zum Hinzufügen zum Warenkorb implementieren
-    console.log(`Produkt '${product.name}' wurde in den Warenkorb gelegt mit Menge ${quantity}`);
+  const addToCart = async () => {
+
+    try {
+      await keycloak.init({ onLoad: 'login-required' });
+    } catch (error) {
+      console.log("Keycloak Instance has already been initialized");
+    }
+
+    const token = keycloak.token;
+
+    const cartItem = {
+      productId: id,
+      amount: quantity
+    };
+    console.log(JSON.stringify(cartItem));
+
+    try {
+        const response = await fetch("/api/shopping-cart/add", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify(cartItem)
+        });
+
+        if (!response.ok) {
+            if (response.status === 401) {
+              keycloak.login(
+                {
+                  redirectUri: `/productdetails/${id}`,
+                }
+              );
+              return;
+            }
+          throw new Error('Network response was not ok' + response.statusText);
+        }
+        Toastify({
+          text: "Erfolgreich zum Warenkorb hinzugefügt!",
+          duration: 2000,
+          close: true,
+          gravity: "top",
+          position: "right",
+          backgroundColor: "#70A86C",
+        }).showToast();
+        console.log(`Produkt '${product.name}' wurde in den Warenkorb gelegt mit Menge ${quantity}`);
+        return;
+      } catch (error) {
+        Toastify({
+                  text: "Konnte nicht zum Warenkorb hinzugefügt werden",
+                  duration: 2000,
+                  close: true,
+                  gravity: "top",
+                  position: "right",
+                  backgroundColor: "#70A86C",
+        }).showToast();
+        console.error('Error:', error);
+    }
+
   };
 
   if (!product) {
