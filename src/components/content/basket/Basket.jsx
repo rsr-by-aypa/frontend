@@ -3,9 +3,9 @@ import './Basket.css';
 import { useNavigate } from 'react-router-dom';
 import keycloak from '../keycloak';
 
-const Basket = (shippingCost) => {
+const Basket = ({ shippingCost }) => {
 
-    const [shoppingCart, setShoppingCart] = useState([]);
+    const [shoppingCart, setShoppingCart] = useState(null);
 
     useEffect(() => {
         fetchData();
@@ -39,6 +39,7 @@ const Basket = (shippingCost) => {
           }
 
           const data = await response.json();
+
           setShoppingCart(data);
 
         } catch (error) {
@@ -48,11 +49,15 @@ const Basket = (shippingCost) => {
 
     const navigate = useNavigate();
 
-    if (!shoppingCart.items) {
+    if (!shoppingCart) {
         return <p>Lade...</p>; // Hier kannst du einen Lade-Indikator anzeigen
     }
 
+    console.log(shoppingCart);
+
     const total = shoppingCart.items.reduce((acc, item) => acc + item.priceInEuro * item.amount, 0);
+    console.log(total);
+    console.log(shoppingCart.items.map(item => item.priceInEuro));
 
     return (
       <div className="basket-container">
@@ -64,7 +69,7 @@ const Basket = (shippingCost) => {
               {shoppingCart.items.map(item => (
                             <li key={item.id}>
                               <div className="item-details">
-                                <img src={item.imageLink} alt={item.productName} />
+                                <img src={item.imageLink} alt={item.productName} style={{ width: '150px', height: 'auto' }} />
                                 <div>
                                   <h4>{item.productName}</h4>
                                   <p>Preis: {item.priceInEuro}€</p>
@@ -78,7 +83,7 @@ const Basket = (shippingCost) => {
           <div className="basket-summary">
             <div className="basket-summary-item">
               <span>Gesamt:</span>
-              <span id='itemsGesamtsummeBasketText'>{total.toFixed(2)}€</span>
+              <span id='itemsGesamtsummeBasketText'>{total}€</span>
             </div>
             <div className="basket-summary-item">
               <span>Versandkosten:</span>
@@ -86,7 +91,7 @@ const Basket = (shippingCost) => {
             </div>
             <div className="basket-summary-item">
               <span>Du zahlst:</span>
-              <span id='GesamtsummeBasketText'>{(total + shippingCost).toFixed(2)}€</span>
+              <span id='GesamtsummeBasketText'>{total + shippingCost}€</span>
             </div>
             <button className="checkout-button" id='checkoutBasketButton' onClick={() => navigate('/productList')}>Zur Kasse</button>
           </div>
@@ -94,5 +99,5 @@ const Basket = (shippingCost) => {
       </div>
     );
   };
-  
+
   export default Basket;
