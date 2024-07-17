@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './Basket.css';
 import { useNavigate } from 'react-router-dom';
+import keycloak from '../keycloak';
 
-const Basket = () => {
+const Basket = (total, shippingCost) => {
 
     const [shoppingCart, setShoppingCart] = useState([]);
 
