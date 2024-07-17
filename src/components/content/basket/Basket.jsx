@@ -59,6 +59,10 @@ const Basket = () => {
     console.log(total);
     console.log(shoppingCart.items.map(item => item.priceInEuro));
 
+    const handleCheckout = () => {
+        navigate('/checkout', { state: { shoppingCart, total, shippingCost } });
+    };
+
     return (
       <div className="basket-container">
         <h2 className='warenkorbTitle'>Warenkorb</h2>
@@ -93,7 +97,7 @@ const Basket = () => {
               <span>Du zahlst:</span>
               <span id='GesamtsummeBasketText'>{(Number(total) + Number(shippingCost)).toFixed(2)}€</span>
             </div>
-            <button className="checkout-button" id='checkoutBasketButton' onClick={() => navigate('/productList')}>Zur Kasse</button>
+            <button className="checkout-button" id='checkoutBasketButton' onClick={handleCheckout}>Zur Kasse</button>
           </div>
         </div>
       </div>
