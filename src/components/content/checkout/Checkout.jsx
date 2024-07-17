@@ -69,8 +69,66 @@ const Checkout = () => {
 
         createOrder(orderRequest); // Übergebe orderRequest an createOrder()
 
+        if (paymentMethod == "paypal") {
+            payWithPayPal();
+        }
         console.log("Form submitted with data:", { email, vorname, nachname, country, stadt, postleitzahl, adresse, paymentMethod });
     };
+
+    async function payWithPayPal() {
+        try {
+            await keycloak.init({ onLoad: 'login-required' });
+        } catch (error) {
+            console.log("Keycloak Instance has already been initialized");
+        }
+
+        const token = keycloak.token;
+
+        const url = new URL('http://localhost:80/api/payment/paypal/create'); // Die URL deines POST-Endpunkts
+        const params = {
+            cancelUrl: 'http://localhost:80/checkout',
+            successUrl: 'http://localhost:80',
+        };
+
+        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    Authorization: `Bearer ${token}`
+                },
+                credentials: 'include'
+            });
+
+            if (!response.ok) {
+                if (response.status === 401) {
+                    keycloak.login(
+                        {
+                            redirectUri: `/checkout`,
+                        }
+                    );
+                    return;
+                }
+                throw new Error('Network response was not ok' + response.statusText);
+            }
+
+            if (response.ok || response.redirect) {
+                const responseData = await response.text();
+                console.log(responseData);
+                if (responseData) {
+                    window.location.href = responseData;
+                } else {
+                    console.error('PayPal URL not found in response');
+                }
+            } else {
+                console.error('Fehler bei der Anfrage:', response.status, response.statusText);
+            }
+        } catch (error) {
+            console.error('Netzwerkfehler:', error);
+        }
+    }
 
     const createOrder = async (orderRequest) => { // orderRequest als Parameter hinzufügen
         try {
