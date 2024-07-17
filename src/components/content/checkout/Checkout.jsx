@@ -69,7 +69,7 @@ const Checkout = () => {
 
         createOrder(orderRequest); // Übergebe orderRequest an createOrder()
 
-        if (paymentMethod == "paypal") {
+        if (paymentMethod === "paypal") {
             payWithPayPal();
         }
         console.log("Form submitted with data:", { email, vorname, nachname, country, stadt, postleitzahl, adresse, paymentMethod });
