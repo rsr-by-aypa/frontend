@@ -5,8 +5,13 @@ import basketLogo from '../../images/warenkorbLogo.png';
 import logo from '../../images/Logo2.png';
 
 const Header = () => {
+  const navigate = useNavigate();    
 
-const navigate = useNavigate();    
+  const handleLogout = () => {
+    // Hier können Sie Ihre Logout-Logik einfügen
+    console.log('Logout button clicked');
+    navigate('/login'); // Beispiel: Nach dem Logout auf die Login-Seite navigieren
+  };
 
   return (
     <div className="header-container">
@@ -15,6 +20,7 @@ const navigate = useNavigate();
         <span className="header-title">Rock Solid Remedies</span> 
       </div>
       <div className="right-content">
+        <button className="logout-button" id="headerLogoutButton" onClick={handleLogout}>Logout</button>
         <img src={basketLogo} alt="Bild rechts" className="basket-button" id='basketHeaderButton' onClick={() => navigate('/basket')} />
       </div>
     </div>

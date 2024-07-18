@@ -13,14 +13,12 @@
   padding-left: 150px;
 }
 
-
 .basket-button {
   width: 40px;
   height: 40px;
   cursor: pointer;
   padding-right: 75px;
 }
-
 
 .header-title {
   font-size: xx-large;
@@ -29,9 +27,26 @@
   padding-left: 30px;
   margin-left: 10px;
   color: rgb(255, 255, 255);
-  flex-grow: 1; /* Lässt den Titel den verfügbaren Platz einnehmen */
-  text-align: center; /* Zentriert den Text innerhalb des Titels */
+  flex-grow: 1;
+  text-align: center;
   display: flex;
   align-items: center;
-  justify-content: center; /* Zentriert den Text innerhalb des flex-Containers */
+  justify-content: center;
+}
+
+.logout-button {
+  margin-right: 20px;
+  padding: 10px 20px;
+  background-color: #ff4d4d;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #ff1a1a;
 }
