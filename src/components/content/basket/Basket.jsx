@@ -54,7 +54,7 @@ const Basket = () => {
       return <p>Lade...</p>
     }
 
-    if (shoppingCart == "LEER") {
+    if (shoppingCart === "LEER") {
       const total = 0.00;
         return (
           <div className="basket-container">
