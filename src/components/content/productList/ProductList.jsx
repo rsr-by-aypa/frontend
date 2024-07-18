@@ -60,7 +60,7 @@ const ProductList = ({ searchQuery }) => {
               <img src={product.imageLink} alt={product.name} className="product-image" />
             </div>
             <h3 className="product-name">{product.name}</h3>
-            <p className="product-price">{product.priceInEuro}</p>
+            <p className="product-price">{product.priceInEuro}€</p>
           </Link>
         </div>
       ))}
