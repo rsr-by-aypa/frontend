@@ -132,7 +132,7 @@ const ProductDetails = () => {
           {product.description}
         </div>
         <div className="product-details-price">
-          {product.price}
+          {product.priceInEuro}€
           <br />
           <span className="product-details-vat">inkl. MwSt., Versand wird beim Checkout berechnet</span>
         </div>
