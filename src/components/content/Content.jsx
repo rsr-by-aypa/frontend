@@ -10,13 +10,14 @@ import AddProduct from "./addProduct/AddProduct";
 import AllRightsReserved from "../footer/footerAllRightsReserved/AllRightsReserved";
 import PrivacyPolicy from "../footer/footerPrivacyPolicy/PrivacyPolicy";
 import TermsAndConditions from "../footer/footerTermsAndConditions/TermsAndConditions";
+import BuySuccess from "./buySucess/BuySuccess";
 
-const Content = () => {
+const Content = ({ searchQuery }) => {
 
     return (
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/productList" element={<ProductList />} />
+                <Route path="/productList" element={<ProductList searchQuery={searchQuery}/>} />
                 <Route path="/productdetails/:id" element={<ProductDetails />} />
                 <Route path="/basket" element={<Basket />} />
                 <Route path="/checkout" element={<Checkout />} />
@@ -25,6 +26,7 @@ const Content = () => {
                 <Route path="/allRightsReserved" element={<AllRightsReserved/>} />
                 <Route path="/privacyPolicy" element={<PrivacyPolicy/>} />
                 <Route path="/termsAndConditions" element={<TermsAndConditions/>} />
+                <Route path="/buySuccess" element={<BuySuccess/>} />
             </Routes>
     );
 };

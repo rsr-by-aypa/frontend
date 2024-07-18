@@ -39,10 +39,11 @@ const Basket = () => {
           }
 
           const data = await response.json();
-
+          
           setShoppingCart(data);
 
         } catch (error) {
+          setShoppingCart("LEER")
           console.error('Error fetching items:', error);
         }
       };
@@ -50,7 +51,37 @@ const Basket = () => {
     const navigate = useNavigate();
 
     if (!shoppingCart) {
-        return <p>Lade...</p>; // Hier kannst du einen Lade-Indikator anzeigen
+      return <p>Lade...</p>
+    }
+
+    if (shoppingCart === "LEER") {
+      const total = 0.00;
+        return (
+          <div className="basket-container">
+            <h2 className='warenkorbTitle'>Warenkorb</h2>
+            <div className="basket-content">
+              <div className="items-list">
+                <h3>Artikel im Warenkorb:</h3>
+                <p>Leer...</p>
+              </div>
+              <div className="basket-summary">
+                <div className="basket-summary-item">
+                  <span>Gesamt:</span>
+                  <span id='itemsGesamtsummeBasketText'>{Number(total).toFixed(2)}€</span>
+                </div>
+                <div className="basket-summary-item">
+                  <span>Versandkosten:</span>
+                  <span id='versandkostenGesamtsummeBasketText'>{Number(shippingCost).toFixed(2)}€</span>
+                </div>
+                <div className="basket-summary-item">
+                  <span>Du zahlst:</span>
+                  <span id='GesamtsummeBasketText'>{(Number(total) + Number(shippingCost)).toFixed(2)}€</span>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        );
     }
 
     console.log(shoppingCart);

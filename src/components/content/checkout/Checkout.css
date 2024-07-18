@@ -42,6 +42,15 @@
   cursor: pointer;
 }
 
+.payNowButton {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 input[type="text"] {
   width: 100%; /* Ensure all input fields have the same width */
   padding: 10px;
@@ -74,6 +83,41 @@ input[type="email"] {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+
+/* Allgemeine Stile für das select-Element */
+select#paymentMethod {
+  appearance: none; /* Entfernt das Standard-Dropdown-Pfeil */
+  background-color: #f8f9fa; /* Heller Hintergrund */
+  border: 1px solid #ced4da; /* Graue Umrandung */
+  border-radius: 4px; /* Abgerundete Ecken */
+  padding: 10px 40px 10px 12px; /* Innenabstand */
+  font-size: 16px; /* Schriftgröße */
+  color: #495057; /* Dunkle Textfarbe */
+  width: 100%; /* Volle Breite */
+  max-width: 300px; /* Maximale Breite */
+  box-sizing: border-box; /* Umfasst Innenabstand und Rand */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Übergangseffekte */
+}
+
+/* Stile für den Dropdown-Pfeil */
+select#paymentMethod::after {
+  content: '▼'; /* Pfeil nach unten */
+  position: absolute; /* Absolute Positionierung */
+  right: 12px; /* Abstand vom rechten Rand */
+  pointer-events: none; /* Keine Mausereignisse */
+}
+
+/* Hover- und Fokus-Stile */
+select#paymentMethod:hover {
+  border-color: #80bdff; /* Blaues Rand bei Hover */
+}
+
+select#paymentMethod:focus {
+  border-color: #80bdff; /* Blaues Rand bei Fokus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Schatteneffekt bei Fokus */
+  outline: none; /* Entfernt den Standard-Fokus-Rahmen */
 }
 
 
