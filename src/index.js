@@ -2,21 +2,17 @@ import reportWebVitals from './reportWebVitals';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import Header from './components/header/Header';
-import Footer from './components/footer/Footer';
-import NavigationBar from './components/navigationBar/NavigationBar';
-import Content from './components/content/Content';
+import App from './components/app/App';
 import { BrowserRouter } from 'react-router-dom';
+
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+
   <React.StrictMode>
     <BrowserRouter basename='/'> 
-      <Header />
-      <NavigationBar />
-      <Content />
-      <Footer />
+      <App/>
     </BrowserRouter> 
   </React.StrictMode>
 );

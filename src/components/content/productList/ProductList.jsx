@@ -3,10 +3,9 @@ import { Link } from 'react-router-dom';
 import './ProductList.css';
 import keycloak from '../keycloak';
 
-
-
-const ProductList = () => {
+const ProductList = ({ searchQuery }) => {
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
     fetchData();
@@ -14,29 +13,22 @@ const ProductList = () => {
 
   const fetchData = async () => {
     try {
-      // Initialisiere Keycloak
       try {
         await keycloak.init({ onLoad: 'login-required' });
       } catch (error) {
-        console.log("Keycloak Instance has already been initialized");
+        console.log("Keycloak ist schon initialisiert")
       }
+      
       const token = keycloak.token;
 
-      // Führe die Datenabfrage durch
       const response = await fetch('/api/product/all', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       if (!response.ok) {
-        // Wenn die Antwort nicht OK ist, prüfe den Statuscode
         if (response.status === 401) {
-          // Benutzer zur Keycloak-Login-Seite weiterleiten
-          keycloak.login(
-            {
-              redirectUri: "/productList", // Hier die gewünschte redirect_uri angeben
-            }
-          );
+          keycloak.login({ redirectUri: "/productList" });
           return;
         }
         throw new Error('Network response was not ok');
@@ -49,9 +41,19 @@ const ProductList = () => {
     }
   };
 
+  useEffect(() => {
+    if (searchQuery) {
+      setFilteredProducts(products.filter(product => 
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())
+      ));
+    } else {
+      setFilteredProducts(products);
+    }
+  }, [searchQuery, products]);
+
   return (
     <div className="products-list">
-      {products.map(product => (
+      {filteredProducts.map(product => (
         <div className="product-item" key={product.id}>
           <Link to={`/productdetails/${product.id}`} className="product-link">
             <div className="image-container">
@@ -67,4 +69,5 @@ const ProductList = () => {
 }
 
 export default ProductList;
+
 

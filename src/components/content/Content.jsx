@@ -12,12 +12,12 @@ import PrivacyPolicy from "../footer/footerPrivacyPolicy/PrivacyPolicy";
 import TermsAndConditions from "../footer/footerTermsAndConditions/TermsAndConditions";
 import BuySuccess from "./buySucess/BuySuccess";
 
-const Content = () => {
+const Content = ({ searchQuery }) => {
 
     return (
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/productList" element={<ProductList />} />
+                <Route path="/productList" element={<ProductList searchQuery={searchQuery}/>} />
                 <Route path="/productdetails/:id" element={<ProductDetails />} />
                 <Route path="/basket" element={<Basket />} />
                 <Route path="/checkout" element={<Checkout />} />

@@ -14,10 +14,10 @@
 }
 
 .basket-button {
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   cursor: pointer;
-  padding-right: 75px;
+  padding-right: 50px;
 }
 
 .header-title {
@@ -35,18 +35,8 @@
 }
 
 .logout-button {
-  margin-right: 20px;
-  padding: 10px 20px;
-  background-color: #ff4d4d;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
+  width: 50px;
+  height: 45px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.logout-button:hover {
-  background-color: #ff1a1a;
+  padding-right: 75px;
 }
