@@ -52,7 +52,7 @@ const Checkout = () => {
         setPaymentMethod(event.target.value);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const orderRequest = {
             userId: shoppingCart.userId,
@@ -67,15 +67,15 @@ const Checkout = () => {
             }))
         };
 
-        createOrder(orderRequest); // Übergebe orderRequest an createOrder()
+        const orderData = await createOrder(orderRequest); // Übergebe orderRequest an createOrder()
 
         if (paymentMethod === "paypal") {
-            payWithPayPal();
+            payWithPayPal(orderData.id);
         }
         console.log("Form submitted with data:", { email, vorname, nachname, country, stadt, postleitzahl, adresse, paymentMethod });
     };
 
-    async function payWithPayPal() {
+    async function payWithPayPal(orderId) {
         try {
             await keycloak.init({ onLoad: 'login-required' });
         } catch (error) {
@@ -83,11 +83,13 @@ const Checkout = () => {
         }
 
         const token = keycloak.token;
+        console.log(orderId)
 
         const url = new URL('http://localhost:80/api/payment/paypal/create'); // Die URL deines POST-Endpunkts
         const params = {
             cancelUrl: 'http://localhost:80/checkout',
             successUrl: 'http://localhost:80',
+            orderId: orderId
         };
 
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
@@ -160,6 +162,10 @@ const Checkout = () => {
                 }
                 throw new Error('Network response was not ok' + response.statusText);
             }
+
+            const data = await response.json();
+
+
             Toastify({
                 text: "Bestellung wurde in Auftrag gegeben!",
                 duration: 2000,
@@ -169,7 +175,7 @@ const Checkout = () => {
                 backgroundColor: "#70A86C",
             }).showToast();
             console.log(`Order wurde created`);
-            return;
+            return data;
         } catch (error) {
             Toastify({
                 text: "Bestellung konnte nicht beauftragt werden!",
